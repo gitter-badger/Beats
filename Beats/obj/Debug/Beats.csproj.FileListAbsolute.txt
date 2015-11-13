@@ -1,8 +1,0 @@
-c:\users\administrator\documents\visual studio 2015\Projects\Beats\Beats\bin\Debug\Beats.exe.config
-c:\users\administrator\documents\visual studio 2015\Projects\Beats\Beats\bin\Debug\Beats.exe
-c:\users\administrator\documents\visual studio 2015\Projects\Beats\Beats\bin\Debug\Beats.pdb
-c:\users\administrator\documents\visual studio 2015\Projects\Beats\Beats\bin\Debug\OpenTK.dll
-c:\users\administrator\documents\visual studio 2015\Projects\Beats\Beats\bin\Debug\OpenTK.xml
-c:\users\administrator\documents\visual studio 2015\Projects\Beats\Beats\obj\Debug\Beats.csprojResolveAssemblyReference.cache
-c:\users\administrator\documents\visual studio 2015\Projects\Beats\Beats\obj\Debug\Beats.exe
-c:\users\administrator\documents\visual studio 2015\Projects\Beats\Beats\obj\Debug\Beats.pdb
