@@ -8,12 +8,24 @@ using System.Threading.Tasks;
 
 namespace Beats.Sprites
 {
+	/// <summary>
+	/// Represents a sprite. A sprite is the most basic element. It can be drawn and transformed.
+	/// </summary>
 	public abstract class Sprite
 	{
+		/// <summary>
+		/// The x position of the sprite, in pixels.
+		/// </summary>
 		public float X { get; set; }
+		/// <summary>
+		/// The y position of the sprite, in pixels.
+		/// </summary>
 		public float Y { get; set; }
 
 		private int colorBeforeTransform;
+		/// <summary>
+		/// The color of the sprite. Every pixels color that is drawn by this sprite will be multiplied with this color.
+		/// </summary>
 		public Color Color { get; set; }
 
 		public Sprite()
@@ -32,15 +44,15 @@ namespace Beats.Sprites
 			/*GL.Scale(scale.x, scale.y, 0f);
 			GL.Rotate(rotation, 0f, 0f, 1f);
 			GL.Translate(origin.x, origin.y, 0f);*/
-			/*GL.GetInteger(GetPName.CurrentColor, out colorBeforeTransform);
-			GL.Color4(Color);*/
+			GL.GetInteger(GetPName.CurrentColor, out colorBeforeTransform);
+			GL.Color4(Color);
 		}
 		/// <summary>
 		/// Undos transformations of the global OpenGL-State as necessary after drawing the geometry for the sprite.
 		/// </summary>
 		protected virtual void untransform()
 		{
-			//GL.Color4(Color.FromArgb(colorBeforeTransform));
+			GL.Color4(Color.FromArgb(colorBeforeTransform));
 			GL.PopMatrix();
 		}
 		/// <summary>

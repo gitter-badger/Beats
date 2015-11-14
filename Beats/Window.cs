@@ -3,11 +3,18 @@ using Beats.Sprites;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing;
+using System;
 
 namespace Beats
 {
+	/// <summary>
+	/// The main window for Beats.
+	/// </summary>
 	public class Window : GameWindow
 	{
+		/// <summary>
+		/// Constructs the main window.
+		/// </summary>
 		public Window()
 			: base(1024, 768)
 		{
@@ -33,20 +40,16 @@ namespace Beats
 			GL.Translate(0f, -Height, 0f);
 		}
 
+		protected override void OnResize(EventArgs e)
+		{
+			base.OnResize(e);
+			fixViewPort();
+		}
 		protected override void OnRenderFrame(FrameEventArgs e)
 		{
 			base.OnRenderFrame(e);
 
-			/*GL.ClearColor(Color.Black);
-			GL.Clear(ClearBufferMask.ColorBufferBit);*/
-
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-			using (Picture pic = new Picture(new Texture("test.jpg")))
-			{
-				pic.Draw();
-			}
-
-			/**/
 
 			SwapBuffers();
 		}

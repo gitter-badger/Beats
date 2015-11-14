@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Beats.Graphics
 {
+	/// <summary>
+	/// Represents a texture that has been loaded into graphics card memory.
+	/// </summary>
 	public class Texture : IDisposable
 	{
 		private uint textureId;
@@ -17,14 +20,24 @@ namespace Beats.Graphics
 		private uint vertexBufferId;
 		private uint texCoordBufferId;
 
-		private float[] vertices = new float[8];
-		private float[] texCoords = new float[8];
+		private float[] vertices;
+		private float[] texCoords;
 
 		private static byte[] indices = new byte[] { 0, 1, 2, 3 };
 
+		/// <summary>
+		/// The width of the texture, in pixels.
+		/// </summary>
 		public int Width { get; private set; }
+		/// <summary>
+		/// The height of the texture, in pixels.
+		/// </summary>
 		public int Height { get; private set; }
 
+		/// <summary>
+		/// Constructs a new texture. The texture will contain pixel data from the image at the given file path.
+		/// </summary>
+		/// <param name="filePath">The path to the image the texture should load.</param>
 		public Texture(string filePath)
 		{
 			Bitmap bmp = (Bitmap)Bitmap.FromFile(filePath);
@@ -52,6 +65,12 @@ namespace Beats.Graphics
 			bmp.Dispose();
 			finishConstruct();
 		}
+		/// <summary>
+		/// Constructs a new texture. The texture will have the given width and height and be filled with the given color.
+		/// </summary>
+		/// <param name="color">The color the texture should be filled with.</param>
+		/// <param name="width">The width the texture should have.</param>
+		/// <param name="height">The height the texture should have.</param>
 		public Texture(Color color, int width, int height)
 		{
 			Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
@@ -98,8 +117,13 @@ namespace Beats.Graphics
 			GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(sizeof(float) * indices.Length), indices, BufferUsageHint.StaticDraw);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 
-			vertices = new float[] { 0f, 0f, Width, 0f, Width, Height, 0f, Height };
-
+			vertices = new float[]
+			{
+				0f, 0f,
+				Width, 0f,
+				Width, Height,
+				0f, Height
+			};
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId);
 			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * vertices.Length), vertices, BufferUsageHint.StaticDraw);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
@@ -116,6 +140,9 @@ namespace Beats.Graphics
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 
+		/// <summary>
+		/// Draws the texture. Does not apply any transformations to anything.
+		/// </summary>
 		public void Draw()
 		{
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId);
@@ -137,6 +164,9 @@ namespace Beats.Graphics
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 
+		/// <summary>
+		/// Frees OpenGL-Related resources.
+		/// </summary>
 		public void Dispose()
 		{
 			GL.DeleteTexture(textureId);
