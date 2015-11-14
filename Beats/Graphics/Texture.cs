@@ -1,0 +1,148 @@
+﻿using OpenTK.Graphics.OpenGL;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Beats.Graphics
+{
+	public class Texture : IDisposable
+	{
+		private uint textureId;
+
+		private uint indexBufferId;
+		private uint vertexBufferId;
+		private uint texCoordBufferId;
+
+		private float[] vertices = new float[8];
+		private float[] texCoords = new float[8];
+
+		private static byte[] indices = new byte[] { 0, 1, 2, 3 };
+
+		public int Width { get; private set; }
+		public int Height { get; private set; }
+
+		public Texture(string filePath)
+		{
+			Bitmap bmp = (Bitmap)Bitmap.FromFile(filePath);
+
+			Width = bmp.Width;
+			Height = bmp.Height;
+
+			BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			textureId = (uint)GL.GenTexture();
+			GL.BindTexture(TextureTarget.Texture2D, textureId);
+			GL.TexImage2D(
+				TextureTarget.Texture2D,
+				0,
+				PixelInternalFormat.Rgba,
+				Width,
+				Height,
+				0,
+				OpenTK.Graphics.OpenGL.PixelFormat.Bgra,
+				PixelType.UnsignedByte,
+				bmpData.Scan0
+			);
+
+			bmp.UnlockBits(bmpData);
+			bmp.Dispose();
+			finishConstruct();
+		}
+		public Texture(Color color, int width, int height)
+		{
+			Bitmap bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+			for (int x = 0; x < width; ++x)
+				for (int y = 0; y < height; ++y)
+					bmp.SetPixel(x, y, color);
+
+			Width = bmp.Width;
+			Height = bmp.Height;
+
+			BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			textureId = (uint)GL.GenTexture();
+			GL.BindTexture(TextureTarget.Texture2D, textureId);
+			GL.TexImage2D(
+				TextureTarget.Texture2D,
+				0,
+				PixelInternalFormat.Rgba,
+				Width,
+				Height,
+				0,
+				OpenTK.Graphics.OpenGL.PixelFormat.Rgba,
+				PixelType.UnsignedByte,
+				bmpData.Scan0
+			);
+			bmp.UnlockBits(bmpData);
+			finishConstruct();
+		}
+
+		private void finishConstruct()
+		{
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Linear);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Linear);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)All.Repeat);
+			GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)All.Repeat);
+
+			uint[] bufferIds = new uint[3];
+			GL.GenBuffers(3, bufferIds);
+			indexBufferId = bufferIds[0];
+			vertexBufferId = bufferIds[1];
+			texCoordBufferId = bufferIds[2];
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferId);
+			GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(sizeof(float) * indices.Length), indices, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+
+			vertices = new float[] { 0f, 0f, Width, 0f, Width, Height, 0f, Height };
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId);
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * vertices.Length), vertices, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+
+			texCoords = new float[]
+			{
+				0f, 0f,
+				1f, 0f,
+				1f, 1f,
+				0f, 1f
+			};
+			GL.BindBuffer(BufferTarget.ArrayBuffer, texCoordBufferId);
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * texCoords.Length), texCoords, BufferUsageHint.StaticDraw);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+		}
+
+		public void Draw()
+		{
+			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId);
+			GL.EnableClientState(ArrayCap.VertexArray);
+			GL.VertexPointer(2, VertexPointerType.Float, 0, IntPtr.Zero);
+
+			GL.BindBuffer(BufferTarget.ArrayBuffer, texCoordBufferId);
+			GL.EnableClientState(ArrayCap.TextureCoordArray);
+			GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, IntPtr.Zero);
+
+			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferId);
+
+			GL.BindTexture(TextureTarget.Texture2D, textureId);
+
+			GL.DrawElements(PrimitiveType.Quads, 4, DrawElementsType.UnsignedByte, IntPtr.Zero);
+
+			GL.DisableClientState(ArrayCap.VertexArray);
+			GL.DisableClientState(ArrayCap.TextureCoordArray);
+			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+		}
+
+		public void Dispose()
+		{
+			GL.DeleteTexture(textureId);
+			GL.DeleteBuffers(1, ref indexBufferId);
+			GL.DeleteBuffers(1, ref vertexBufferId);
+			GL.DeleteBuffers(1, ref texCoordBufferId);
+		}
+	}
+}
