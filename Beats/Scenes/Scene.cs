@@ -16,14 +16,14 @@ namespace Beats.Scenes
 
 		public event EventHandler<EventArgs> TransitionFinished;
 
-		private List<Sprite> spriteList;
+		private List<Sprite> sprites;
 
 		/// <summary>
 		/// Constructor for the Scene class.
 		/// </summary>
 		public Scene()
 		{
-			spriteList = new List<Sprite>();
+			sprites = new List<Sprite>();
 		}
 
 		/// <summary>
@@ -55,14 +55,22 @@ namespace Beats.Scenes
 		}
 
 		/// <summary>
-		/// Draws the scene.
+		/// Draws the scene by drawing every sprite in the scene.
 		/// </summary>
-		public abstract void Draw();
+		public virtual void Draw()
+		{
+			foreach (Sprite sprite in sprites)
+				sprite.Draw();
+		}
 
 		/// <summary>
-		/// Updates the scene.
+		/// Updates the scene by updating every sprite in the scene.
 		/// </summary>
-		public abstract void Update();
+		public virtual void Update()
+		{
+			foreach (Sprite sprite in sprites)
+				sprite.Update();
+		}
 
 		/// <summary>
 		/// Resets the scene.
