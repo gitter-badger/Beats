@@ -12,6 +12,8 @@ namespace Beats.Scenes
 	/// </summary>
 	public abstract class Scene
 	{
+		public abstract string Name { get; }
+
 		private List<Sprite> spriteList;
 
 		/// <summary>
