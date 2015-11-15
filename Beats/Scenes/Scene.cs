@@ -14,6 +14,8 @@ namespace Beats.Scenes
 	{
 		public abstract string Name { get; }
 
+		public event EventHandler<EventArgs> TransitionFinished;
+
 		private List<Sprite> spriteList;
 
 		/// <summary>
@@ -22,6 +24,34 @@ namespace Beats.Scenes
 		public Scene()
 		{
 			spriteList = new List<Sprite>();
+		}
+
+		/// <summary>
+		/// Returns true if this scene is allowed to transition to the given scene, false otherwise.
+		/// </summary>
+		/// <param name="scene">The scene that should be transitioned to.</param>
+		/// <returns>True if this scene is allowed to transition to the given scene, false otherwise.</returns>
+		public abstract bool CanTransitionTo(Scene scene);
+
+		/// <summary>
+		/// Plays the fadeout transition of this scene. When the transition animation has completed,
+		/// the TransitionFinished event should be triggered. By default, this method does not animate anything
+		/// and only triggers the TransitionFinished event.
+		/// </summary>
+		public virtual void TransitionOut()
+		{
+			if (TransitionFinished != null)
+				TransitionFinished(this, new EventArgs());
+		}
+		/// <summary>
+		/// Plays the fadein transition of this scene. When the transition animation has completed,
+		/// the TransitionFinished event should be triggered. By default, this method does not animate anything
+		/// and only triggers the TransitionFinished event.
+		/// </summary>
+		public virtual void TransitionIn()
+		{
+			if (TransitionFinished != null)
+				TransitionFinished(this, new EventArgs());
 		}
 
 		/// <summary>
