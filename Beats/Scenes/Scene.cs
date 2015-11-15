@@ -7,38 +7,34 @@ using System.Threading.Tasks;
 
 namespace Beats.Scenes
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a scene. A scene has a list of sprites it will draw, can be reset and transition to other scenes.
 	/// </summary>
-    class Scene
-    {
-        /// <summary>
-        /// The list of sprites the scene uses.
-        /// </summary>
-        private Sprite[] spriteList;
+	public class Scene
+	{
+		private List<Sprite> spriteList;
 
-        /// <summary>
-        /// Constructor for the Scene class. Creates an empty list of Sprites with the specified size.
-        /// </summary>
-        /// <param name="n">The size of the sprite list.</param>
-        public Scene(int n)
-        {
-            spriteList = new Sprite[n];
-        }
+		/// <summary>
+		/// Constructor for the Scene class. Creates an empty list of Sprites.
+		/// </summary>
+		public Scene()
+		{
+			spriteList = new List<Sprite>();
+		}
 
-        /// <summary>
-        /// Draws the scene.
-        /// </summary>
-        public void draw()
-        {
-        }
+		/// <summary>
+		/// Draws the scene.
+		/// </summary>
+		public void Draw()
+		{
+		}
 
-        /// <summary>
-        /// Resets the scene back to a new one.
-        /// </summary>
-        public void reset()
-        {
-            spriteList = null;
-        }
-    }
+		/// <summary>
+		/// Resets the scene back to a new one.
+		/// </summary>
+		public void Reset()
+		{
+			spriteList = null;
+		}
+	}
 }
