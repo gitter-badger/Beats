@@ -24,7 +24,7 @@ namespace Beats.Sprites
 
 		private int colorBeforeTransform;
 		/// <summary>
-		/// The color of the sprite. Every pixels color that is drawn by this sprite will be multiplied with this color.
+		/// The color of the sprite. Every pixels color that is drawn by this sprite will be multiplied with this color. Default is White.
 		/// </summary>
 		public Color Color { get; set; }
 
@@ -63,11 +63,22 @@ namespace Beats.Sprites
 
 		}
 
+		/// <summary>
+		/// Draws the sprite with all its transformations applied.
+		/// </summary>
 		public void Draw()
 		{
 			transform();
 			draw();
 			untransform();
+		}
+
+		/// <summary>
+		/// Updates the sprite.
+		/// </summary>
+		public virtual void Update()
+		{
+
 		}
 	}
 }
