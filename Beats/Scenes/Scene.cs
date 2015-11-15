@@ -10,12 +10,12 @@ namespace Beats.Scenes
 	/// <summary>
 	/// Represents a scene. A scene has a list of sprites it will draw, can be reset and transition to other scenes.
 	/// </summary>
-	public class Scene
+	public abstract class Scene
 	{
 		private List<Sprite> spriteList;
 
 		/// <summary>
-		/// Constructor for the Scene class. Creates an empty list of Sprites.
+		/// Constructor for the Scene class.
 		/// </summary>
 		public Scene()
 		{
@@ -25,16 +25,11 @@ namespace Beats.Scenes
 		/// <summary>
 		/// Draws the scene.
 		/// </summary>
-		public void Draw()
-		{
-		}
+		public abstract void Draw();
 
 		/// <summary>
-		/// Resets the scene back to a new one.
+		/// Resets the scene.
 		/// </summary>
-		public void Reset()
-		{
-			spriteList = null;
-		}
+		public abstract void Reset();
 	}
 }
