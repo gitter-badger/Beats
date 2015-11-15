@@ -60,6 +60,11 @@ namespace Beats.Scenes
 		public abstract void Draw();
 
 		/// <summary>
+		/// Updates the scene.
+		/// </summary>
+		public abstract void Update();
+
+		/// <summary>
 		/// Resets the scene.
 		/// </summary>
 		public abstract void Reset();

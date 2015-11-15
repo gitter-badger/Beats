@@ -95,6 +95,8 @@ namespace Beats
 		protected override void OnUpdateFrame(FrameEventArgs e)
 		{
 			base.OnUpdateFrame(e);
+			foreach (Scene scene in activeScenes)
+				scene.Update();
 		}
 	}
 }
