@@ -16,7 +16,7 @@ namespace Beats.Scenes
 
 		public event EventHandler<EventArgs> TransitionFinished;
 
-		private List<Sprite> sprites;
+		public List<Sprite> sprites;
 
 		/// <summary>
 		/// Constructor for the Scene class.

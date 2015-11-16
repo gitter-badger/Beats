@@ -20,7 +20,7 @@ namespace Beats
 		/// Constructs the main window.
 		/// </summary>
 		public Window()
-			: base(1024, 768)
+			: base(800, 600)
 		{
 			fixViewPort();
 			GL.Disable(EnableCap.Lighting);
@@ -87,6 +87,17 @@ namespace Beats
 			base.OnRenderFrame(e);
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+			/*create new scene
+			MainMenuScene mainmenu = new MainMenuScene();
+			//create the picture for the button
+			Texture buttonSideMouseOutTexture = new Texture("./../../Assets/Skins/default/button-side-mouse-over.png");
+			Picture picture = new Picture(buttonSideMouseOutTexture);
+			Button menuButton = new Button("This is a sample button.", 50, 50, picture);
+			//add the button to the scene
+			mainmenu.sprites.Add(menuButton);
+			//turn the scene active
+			activeScenes.Add(mainmenu);
+			//draw*/
 			foreach (Scene scene in activeScenes)
 				scene.Draw();
 
