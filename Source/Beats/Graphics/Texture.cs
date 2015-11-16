@@ -39,8 +39,19 @@ namespace Beats.Graphics
 		/// </summary>
 		/// <param name="filePath">The path to the image the texture should load.</param>
 		public Texture(string filePath)
+			: this((Bitmap)Bitmap.FromFile(filePath))
 		{
-			Bitmap bmp = (Bitmap)Bitmap.FromFile(filePath);
+			
+		}
+		/// <summary>
+		/// Constructs a new texture. The texture will contain pixel data from the given bitmap.
+		/// </summary>
+		/// <param name="bmp">The bitmap with the pixel data the texture should contain.</param>
+		/// <param name="disposeBitmap">True if the given bitmap should be disposed after being uploaded.</param>
+		public Texture(Bitmap bmp, bool disposeBitmap = true)
+		{
+			if (bmp == null)
+				throw new ArgumentNullException(nameof(bmp));
 
 			Width = bmp.Width;
 			Height = bmp.Height;
@@ -62,7 +73,9 @@ namespace Beats.Graphics
 			);
 
 			bmp.UnlockBits(bmpData);
-			bmp.Dispose();
+			if (disposeBitmap)
+				bmp.Dispose();
+
 			finishConstruct();
 		}
 		/// <summary>
