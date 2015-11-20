@@ -30,13 +30,19 @@ namespace Beats
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			activeScenes = new List<Scene>();
+			
+			MainMenuScene mainMenu = new MainMenuScene();
+			activeScenes.Add(mainMenu);
+
+			TargetRenderFrequency = 60;
+			TargetUpdateFrequency = 60;
 		}
 
 		private void fixViewPort()
 		{
 			GL.MatrixMode(MatrixMode.Projection);
 			GL.LoadIdentity();
-			GL.Ortho(0, Width, 0, Height, -1, 1);
+			GL.Ortho(-0.5, Width - 0.5, -0.5, Height - 0.5, -1, 1);
 			GL.Viewport(0, 0, Width, Height);
 
 			GL.MatrixMode(MatrixMode.Modelview);
@@ -87,17 +93,7 @@ namespace Beats
 			base.OnRenderFrame(e);
 
 			GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-			/*create new scene
-			MainMenuScene mainmenu = new MainMenuScene();
-			//create the picture for the button
-			Texture buttonSideMouseOutTexture = new Texture("./../../Assets/Skins/default/button-side-mouse-over.png");
-			Picture picture = new Picture(buttonSideMouseOutTexture);
-			Button menuButton = new Button("This is a sample button.", 50, 50, picture);
-			//add the button to the scene
-			mainmenu.sprites.Add(menuButton);
-			//turn the scene active
-			activeScenes.Add(mainmenu);
-			//draw*/
+
 			foreach (Scene scene in activeScenes)
 				scene.Draw();
 

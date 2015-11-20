@@ -9,12 +9,14 @@ namespace Beats.Scenes
 {
 	public class MainMenuScene : Scene
 	{
-		public override string Name
+		public override string Name => "Main Menu";
+
+		public MainMenuScene()
 		{
-			get
-			{
-				return "Main Menu";
-			}
+			Button menuButton = new Button("Song Select");
+			menuButton.X = 50f;
+			menuButton.Y = 50f;
+			addChild(menuButton);
 		}
 
 		public override bool CanTransitionTo(Scene scene)
@@ -24,7 +26,7 @@ namespace Beats.Scenes
 
 		public override void Reset()
 		{
-			sprites = new List<Sprite>();
+			throw new NotImplementedException();
 		}
 	}
 }

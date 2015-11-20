@@ -10,20 +10,17 @@ namespace Beats.Scenes
 	/// <summary>
 	/// Represents a scene. A scene has a list of sprites it will draw, can be reset and transition to other scenes.
 	/// </summary>
-	public abstract class Scene
+	public abstract class Scene : Sprite
 	{
 		public abstract string Name { get; }
 
 		public event EventHandler<EventArgs> TransitionFinished;
-
-		public List<Sprite> sprites;
 
 		/// <summary>
 		/// Constructor for the Scene class.
 		/// </summary>
 		public Scene()
 		{
-			sprites = new List<Sprite>();
 		}
 
 		/// <summary>
@@ -52,24 +49,6 @@ namespace Beats.Scenes
 		{
 			if (TransitionFinished != null)
 				TransitionFinished(this, new EventArgs());
-		}
-
-		/// <summary>
-		/// Draws the scene by drawing every sprite in the scene.
-		/// </summary>
-		public virtual void Draw()
-		{
-			foreach (Sprite sprite in sprites)
-				sprite.Draw();
-		}
-
-		/// <summary>
-		/// Updates the scene by updating every sprite in the scene.
-		/// </summary>
-		public virtual void Update()
-		{
-			foreach (Sprite sprite in sprites)
-				sprite.Update();
 		}
 
 		/// <summary>

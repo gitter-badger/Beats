@@ -12,7 +12,7 @@ namespace Beats.Graphics
 	/// <summary>
 	/// Represents a texture that has been loaded into graphics card memory.
 	/// </summary>
-	public class Texture : IDisposable
+	public class Texture : IDrawable, IDisposable
 	{
 		private uint textureId;
 
@@ -20,8 +20,8 @@ namespace Beats.Graphics
 		private uint vertexBufferId;
 		private uint texCoordBufferId;
 
-		private float[] vertices;
-		private float[] texCoords;
+		private int[] vertices;
+		private ushort[] texCoords;
 
 		private static byte[] indices = new byte[] { 0, 1, 2, 3 };
 
@@ -130,26 +130,26 @@ namespace Beats.Graphics
 			GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(sizeof(float) * indices.Length), indices, BufferUsageHint.StaticDraw);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
 
-			vertices = new float[]
+			vertices = new int[]
 			{
-				0f, 0f,
-				Width, 0f,
+				0, 0,
+				Width, 0,
 				Width, Height,
-				0f, Height
+				0, Height
 			};
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId);
-			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * vertices.Length), vertices, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(int) * vertices.Length), vertices, BufferUsageHint.StaticDraw);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 
-			texCoords = new float[]
+			texCoords = new ushort[]
 			{
-				0f, 0f,
-				1f, 0f,
-				1f, 1f,
-				0f, 1f
+				0, 0,
+				1, 0,
+				1, 1,
+				0, 1
 			};
 			GL.BindBuffer(BufferTarget.ArrayBuffer, texCoordBufferId);
-			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(float) * texCoords.Length), texCoords, BufferUsageHint.StaticDraw);
+			GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(sizeof(ushort) * texCoords.Length), texCoords, BufferUsageHint.StaticDraw);
 			GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 		}
 
@@ -160,11 +160,11 @@ namespace Beats.Graphics
 		{
 			GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBufferId);
 			GL.EnableClientState(ArrayCap.VertexArray);
-			GL.VertexPointer(2, VertexPointerType.Float, 0, IntPtr.Zero);
+			GL.VertexPointer(2, VertexPointerType.Int, 0, IntPtr.Zero);
 
 			GL.BindBuffer(BufferTarget.ArrayBuffer, texCoordBufferId);
 			GL.EnableClientState(ArrayCap.TextureCoordArray);
-			GL.TexCoordPointer(2, TexCoordPointerType.Float, 0, IntPtr.Zero);
+			GL.TexCoordPointer(2, TexCoordPointerType.Short, 0, IntPtr.Zero);
 
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, indexBufferId);
 
