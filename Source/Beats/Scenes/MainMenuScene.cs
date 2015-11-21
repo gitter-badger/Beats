@@ -14,9 +14,14 @@ namespace Beats.Scenes
 		public MainMenuScene()
 		{
 			Button menuButton = new Button("Song Select");
-			menuButton.X = 50f;
-			menuButton.Y = 50f;
+			menuButton.X = 200f;
+			menuButton.Y = 200f;
 			addChild(menuButton);
+
+			Button exitButton = new Button("Exit");
+			exitButton.X = 200f;
+			exitButton.Y = 350f;
+			addChild(exitButton);
 		}
 
 		public override bool CanTransitionTo(Scene scene)
