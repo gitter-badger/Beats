@@ -6,6 +6,9 @@ using System.Drawing;
 using System;
 using System.Collections.Generic;
 using Beats.Scenes;
+using OpenTK.Input;
+using System.Threading;
+using Beats.Events;
 
 namespace Beats
 {
@@ -15,6 +18,7 @@ namespace Beats
 	public class Window : GameWindow
 	{
 		private List<Scene> activeScenes;
+		private HashSet<Sprite> hoveredSprites;
 
 		/// <summary>
 		/// Constructs the main window.
@@ -30,7 +34,8 @@ namespace Beats
 			GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
 			activeScenes = new List<Scene>();
-			
+			hoveredSprites = new HashSet<Sprite>();
+
 			MainMenuScene mainMenu = new MainMenuScene();
 			activeScenes.Add(mainMenu);
 
@@ -83,6 +88,66 @@ namespace Beats
 			newScene.TransitionIn();
 		}
 
+		protected override void OnKeyDown(KeyboardKeyEventArgs e)
+		{
+			base.OnKeyDown(e);
+		}
+		protected override void OnKeyUp(KeyboardKeyEventArgs e)
+		{
+			base.OnKeyUp(e);
+		}
+		protected override void OnKeyPress(KeyPressEventArgs e)
+		{
+			base.OnKeyPress(e);
+		}
+
+		protected override void OnMouseMove(MouseMoveEventArgs e)
+		{
+			foreach (Scene scene in activeScenes)
+			{
+				recursiveCollisionCheck(
+					scene,
+					e.X,
+					e.Y,
+					x => x.MouseEvents,
+					x =>
+					{
+						if (hoveredSprites.Add(x))
+							x.SendEvent(new MouseRollOverEventArgs(e));
+						x.SendEvent(e);
+					},
+					x =>
+					{
+						if (hoveredSprites.Remove(x))
+							x.SendEvent(new MouseRollOutEventArgs(e));
+					}
+				);
+			}
+
+			base.OnMouseMove(e);
+		}
+		protected override void OnMouseDown(MouseButtonEventArgs e)
+		{
+			foreach (Scene scene in activeScenes)
+				recursiveCollisionCheck(scene, e.X, e.Y, x => x.MouseEvents, x => x.SendEvent(e));
+
+			base.OnMouseDown(e);
+		}
+		protected override void OnMouseUp(MouseButtonEventArgs e)
+		{
+			foreach (Scene scene in activeScenes)
+				recursiveCollisionCheck(scene, e.X, e.Y, x => x.MouseEvents, x => x.SendEvent(e));
+
+			base.OnMouseUp(e);
+		}
+		protected override void OnMouseWheel(MouseWheelEventArgs e)
+		{
+			foreach (Scene scene in activeScenes)
+				recursiveCollisionCheck(scene, e.X, e.Y, x => x.MouseEvents, x => x.SendEvent(e));
+
+			base.OnMouseWheel(e);
+		}
+
 		protected override void OnResize(EventArgs e)
 		{
 			base.OnResize(e);
@@ -104,6 +169,44 @@ namespace Beats
 			base.OnUpdateFrame(e);
 			foreach (Scene scene in activeScenes)
 				scene.Update();
+		}
+
+		private void recursiveCollisionCheck(Sprite sprite, double x, double y, Func<Sprite, bool> predicate, Action<Sprite> whenCollides, Action<Sprite> whenNotCollides = null)
+		{
+			if (!predicate(sprite))
+				return;
+
+			if (sprite.CheckCollision(x, y))
+			{
+				whenCollides(sprite);
+				foreach (Sprite child in sprite.Children)
+				{
+					// translate coordinates to childs coordinate system for next check.
+					double newX = x, newY = y;
+
+					newX -= child.X;
+					newY -= child.Y;
+					newX /= child.SizeX;
+					newY /= child.SizeY;
+
+					double cosVal = Math.Cos(-(child.Rotation * (Math.PI / 180)));
+					double sinVal = Math.Sin(-(child.Rotation * (Math.PI / 180)));
+					double origX = newX;
+					newX = newX * cosVal - newY * sinVal;
+					newY = origX * sinVal + newY * cosVal;
+
+					newX -= child.OriginX;
+					newY -= child.OriginY;
+
+					recursiveCollisionCheck(child, newX, newY, predicate, whenCollides, whenNotCollides);
+				}
+			}
+			else if(whenNotCollides != null)
+			{
+				whenNotCollides(sprite);
+				foreach (Sprite child in sprite.AllChildren)
+					whenNotCollides(child);
+			}
 		}
 	}
 }

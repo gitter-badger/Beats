@@ -21,6 +21,7 @@ namespace Beats.Scenes
 		/// </summary>
 		public Scene()
 		{
+			MouseEvents = true;
 		}
 
 		/// <summary>
