@@ -1,5 +1,7 @@
-﻿using OpenTK.Graphics.OpenGL;
 ﻿using Beats.Events;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -46,7 +48,7 @@ namespace Beats.Sprites
 		/// </summary>
 		public float OriginY { get; set; }
 
-		private int colorBeforeTransform;
+		private float[] colorBeforeTransform = new float[4];
 		/// <summary>
 		/// The color of the sprite. Every pixels color that is drawn by this sprite will be multiplied with this color. Default is White.
 		/// </summary>
@@ -160,15 +162,25 @@ namespace Beats.Sprites
 			GL.Scale(SizeX, SizeY, 0f);
 			GL.Rotate(Rotation, 0f, 0f, 1f);
 			GL.Translate(OriginX, OriginY, 0f);
-			GL.GetInteger(GetPName.CurrentColor, out colorBeforeTransform);
-			GL.Color4(Color);
+			GL.GetFloat(GetPName.CurrentColor, colorBeforeTransform);
+			GL.Color4(Color.FromArgb(
+				(int)(Color.A * colorBeforeTransform[3]),
+				(int)(Color.R * colorBeforeTransform[0]),
+				(int)(Color.G * colorBeforeTransform[1]),
+				(int)(Color.B * colorBeforeTransform[2])
+			));
 		}
 		/// <summary>
 		/// Undos transformations of the global OpenGL-State as necessary after drawing the geometry for the sprite.
 		/// </summary>
 		protected virtual void untransform()
 		{
-			GL.Color4(Color.FromArgb(colorBeforeTransform));
+			GL.Color4(Color.FromArgb(
+				(int)(colorBeforeTransform[3] * 255),
+				(int)(colorBeforeTransform[0] * 255),
+				(int)(colorBeforeTransform[1] * 255),
+				(int)(colorBeforeTransform[2] * 255)
+			));
 			GL.PopMatrix();
 		}
 		/// <summary>
