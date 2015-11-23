@@ -15,7 +15,13 @@ namespace Beats.Sprites
 	{
 		private Texture texture;
 
+		/// <summary>
+		/// The width of the texture this picture contains.
+		/// </summary>
 		public int TextureWidth => texture.Width;
+		/// <summary>
+		/// The height of the texture this picture contains.
+		/// </summary>
 		public int TextureHeight => texture.Height;
 
 		private Picture()
