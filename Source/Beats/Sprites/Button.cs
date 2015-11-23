@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Beats.Sprites
 {
+	/// <summary>
+	/// Represents a clickable button with a caption on it.
+	/// </summary>
 	public class Button : Sprite, IBox, IDisposable
 	{
 		private enum ButtonState
@@ -34,6 +37,9 @@ namespace Beats.Sprites
 		private ButtonState state;
 
 		private int width;
+		/// <summary>
+		/// The width of the button.
+		/// </summary>
 		public int Width
 		{
 			get { return width; }
@@ -51,6 +57,9 @@ namespace Beats.Sprites
 		}
 
 		private int height;
+		/// <summary>
+		/// The height of the button.
+		/// </summary>
 		public int Height
 		{
 			get { return height; }
@@ -68,9 +77,19 @@ namespace Beats.Sprites
 			}
 		}
 
+		/// <summary>
+		/// Triggers after the width of the button changed.
+		/// </summary>
 		public event Action WidthChanged;
+		/// <summary>
+		/// Triggers after the height of the button changed.
+		/// </summary>
 		public event Action HeightChanged;
 
+		/// <summary>
+		/// Constructs a new button with the given caption.
+		/// </summary>
+		/// <param name="caption">The caption of the button.</param>
 		public Button(String caption)
 		{
 			MouseEvents = true;
@@ -173,6 +192,9 @@ namespace Beats.Sprites
 			captionText.Draw();
 		}
 
+		/// <summary>
+		/// Frees resources (such as textures) used by this button.
+		/// </summary>
 		public void Dispose()
 		{
 			sideOut.Dispose();
