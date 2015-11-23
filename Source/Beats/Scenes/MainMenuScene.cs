@@ -8,10 +8,17 @@ using Beats.Align;
 
 namespace Beats.Scenes
 {
+	/// <summary>
+	/// Main menu scene that allows proceeding to start the game, exit the game, change settings, etc.
+	/// </summary>
 	public class MainMenuScene : Scene
 	{
 		public override string Name => "Main Menu";
 
+		/// <summary>
+		/// Constructs a new main menu scene for the given window.
+		/// </summary>
+		/// <param name="window">The window to construct the main menu scene for.</param>
 		public MainMenuScene(Window window)
 			: base(window)
 		{
