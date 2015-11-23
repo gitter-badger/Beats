@@ -14,13 +14,19 @@ namespace Beats.Scenes
 	{
 		public abstract string Name { get; }
 
+		public Window Window { get; private set; }
+
 		public event EventHandler<EventArgs> TransitionFinished;
 
 		/// <summary>
 		/// Constructor for the Scene class.
 		/// </summary>
-		public Scene()
+		public Scene(Window window)
 		{
+			if (window == null)
+				throw new ArgumentNullException(nameof(window));
+
+			Window = window;
 			MouseEvents = true;
 		}
 

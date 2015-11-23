@@ -11,7 +11,8 @@ namespace Beats.Scenes
 	{
 		public override string Name => "Main Menu";
 
-		public MainMenuScene()
+		public MainMenuScene(Window window)
+			: base(window)
 		{
 			Button menuButton = new Button("Song Select");
 			menuButton.X = 200f;

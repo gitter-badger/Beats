@@ -71,7 +71,7 @@ namespace Beats
 			activeScenes = new List<Scene>();
 			hoveredSprites = new HashSet<Sprite>();
 
-			MainMenuScene mainMenu = new MainMenuScene();
+			MainMenuScene mainMenu = new MainMenuScene(this);
 			activeScenes.Add(mainMenu);
 
 			TargetRenderFrequency = 60;
