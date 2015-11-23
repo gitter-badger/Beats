@@ -11,6 +11,9 @@ namespace Beats.Graphics
 	/// </summary>
 	public interface IDrawable
 	{
+		/// <summary>
+		/// Draws the object.
+		/// </summary>
 		void Draw();
 	}
 }
