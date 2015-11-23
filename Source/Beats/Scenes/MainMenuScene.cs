@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Beats.Sprites;
+using Beats.Align;
 
 namespace Beats.Scenes
 {
@@ -15,13 +16,24 @@ namespace Beats.Scenes
 			: base(window)
 		{
 			Button menuButton = new Button("Song Select");
-			menuButton.X = 200f;
-			menuButton.Y = 200f;
+			menuButton.OriginX = menuButton.Width / -2f;
+			menuButton.Align(
+				new RelativeAlignment(menuButton, window, true)
+				{
+					OffsetY = 10,
+					PercentX = 0.5f
+				}
+			);
 			addChild(menuButton);
 
 			Button exitButton = new Button("Exit");
-			exitButton.X = 200f;
-			exitButton.Y = 350f;
+			exitButton.OriginX = exitButton.Width / -2f;
+			exitButton.Align(
+				new RelativeAlignment(exitButton, menuButton, false)
+				{
+					OffsetY = menuButton.Height + 10
+				}
+			);
 			addChild(exitButton);
 		}
 
