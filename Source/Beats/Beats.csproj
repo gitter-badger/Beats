@@ -48,6 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Align\Alignment.cs" />
+    <Compile Include="Align\IBox.cs" />
+    <Compile Include="Align\IPosition.cs" />
+    <Compile Include="Align\ISize.cs" />
+    <Compile Include="Align\RelativeAlignment.cs" />
     <Compile Include="Events\MouseRollOutEventArgs.cs" />
     <Compile Include="Events\MouseRollOverEventArgs.cs" />
     <Compile Include="Graphics\IDrawable.cs" />

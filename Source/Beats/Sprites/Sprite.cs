@@ -1,4 +1,5 @@
-﻿using Beats.Events;
+﻿using Beats.Align;
+using Beats.Events;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
@@ -14,16 +15,35 @@ namespace Beats.Sprites
 	/// <summary>
 	/// Represents a sprite. A sprite is the most basic element. It can be drawn and transformed.
 	/// </summary>
-	public abstract class Sprite
+	public abstract class Sprite : IPosition
 	{
+		private int x;
 		/// <summary>
 		/// The x position of the sprite, in pixels.
 		/// </summary>
-		public float X { get; set; }
+		public int X
+		{
+			get { return x; }
+			set { x = value; XChanged.Trigger(); }
+		}
+		private int y;
 		/// <summary>
 		/// The y position of the sprite, in pixels.
 		/// </summary>
-		public float Y { get; set; }
+		public int Y
+		{
+			get { return y; }
+			set { y = value; YChanged.Trigger(); }
+		}
+
+		/// <summary>
+		/// Triggers after the x coordinate of this sprite changed.
+		/// </summary>
+		public event Action XChanged;
+		/// <summary>
+		/// Triggers after the y coordinate of this sprite changed.
+		/// </summary>
+		public event Action YChanged;
 
 		/// <summary>
 		/// Horizontal size factor. Default is 1.0.
@@ -123,6 +143,8 @@ namespace Beats.Sprites
 		public event Action<KeyboardKeyEventArgs> KeyUp;
 		public event Action<KeyPressEventArgs> KeyPress;
 
+		private List<Alignment> alignments;
+
 		public Sprite()
 		{
 			Color = Color.White;
@@ -130,6 +152,17 @@ namespace Beats.Sprites
 			SizeY = 1f;
 
 			children = new HashSet<Sprite>();
+			alignments = new List<Alignment>();
+		}
+
+		public void Align(Alignment alignment)
+		{
+			if (alignment == null)
+				throw new ArgumentNullException(nameof(alignment));
+			if (alignment.Target != this)
+				throw new InvalidOperationException("The given alignment is not targetting this sprite.");
+
+			alignments.Add(alignment);
 		}
 
 		protected void addChild(Sprite sprite)
