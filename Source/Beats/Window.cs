@@ -9,16 +9,51 @@ using Beats.Scenes;
 using OpenTK.Input;
 using System.Threading;
 using Beats.Events;
+using Beats.Align;
 
 namespace Beats
 {
 	/// <summary>
 	/// The main window for Beats.
 	/// </summary>
-	public class Window : GameWindow
+	public class Window : GameWindow, IBox
 	{
 		private List<Scene> activeScenes;
 		private HashSet<Sprite> hoveredSprites;
+
+		/// <summary>
+		/// The x position of this window relative to the screen.
+		/// </summary>
+		public new int X
+		{
+			get { return X; }
+			set { X = value; XChanged.Trigger(); }
+		}
+		/// <summary>
+		/// The y position of this window relative to the screen.
+		/// </summary>
+		public new int Y
+		{
+			get { return Y; }
+			set { Y = value; YChanged.Trigger(); }
+		}
+
+		/// <summary>
+		/// Triggers after the x coordinate of this window changed.
+		/// </summary>
+		public event Action XChanged;
+		/// <summary>
+		/// Triggers after the y coordinate of this window changed.
+		/// </summary>
+		public event Action YChanged;
+		/// <summary>
+		/// Triggers after the width of this window changed.
+		/// </summary>
+		public event Action WidthChanged;
+		/// <summary>
+		/// Triggers after the height of this window changed.
+		/// </summary>
+		public event Action HeightChanged;
 
 		/// <summary>
 		/// Constructs the main window.
@@ -152,6 +187,8 @@ namespace Beats
 		{
 			base.OnResize(e);
 			fixViewPort();
+			WidthChanged.Trigger();
+			HeightChanged.Trigger();
 		}
 		protected override void OnRenderFrame(FrameEventArgs e)
 		{
