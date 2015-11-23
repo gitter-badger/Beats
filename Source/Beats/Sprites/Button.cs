@@ -1,4 +1,5 @@
-﻿using Beats.Events;
+﻿using Beats.Align;
+using Beats.Events;
 using Beats.Graphics;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Beats.Sprites
 {
-	public class Button : Sprite, IDisposable
+	public class Button : Sprite, IBox, IDisposable
 	{
 		private enum ButtonState
 		{
@@ -45,6 +46,7 @@ namespace Beats.Sprites
 				middleOut.SizeX = width - sideOut.TextureWidth * 2;
 				middleOver.SizeX = middleOut.SizeX;
 				middleDown.SizeX = middleOut.SizeX;
+				WidthChanged.Trigger();
 			}
 		}
 
@@ -62,8 +64,12 @@ namespace Beats.Sprites
 				middleOver.SizeY = sizeY;
 				middleDown.SizeY = sizeY;
 				height = value;
+				HeightChanged.Trigger();
 			}
 		}
+
+		public event Action WidthChanged;
+		public event Action HeightChanged;
 
 		public Button(String caption)
 		{
@@ -139,7 +145,7 @@ namespace Beats.Sprites
 			switch (state)
 			{
 				case ButtonState.Out:
-					sideOut.X = 0f;
+					sideOut.X = 0;
 					sideOut.SizeX = 1f;
 					sideOut.Draw();
 
@@ -150,7 +156,7 @@ namespace Beats.Sprites
 					middleOut.Draw();
 					break;
 				case ButtonState.Over:
-					sideOver.X = 0f;
+					sideOver.X = 0;
 					sideOver.SizeX = 1f;
 					sideOver.Draw();
 
