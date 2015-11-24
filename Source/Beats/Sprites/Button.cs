@@ -1,6 +1,7 @@
 ﻿using Beats.Align;
 using Beats.Events;
 using Beats.Graphics;
+using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -87,6 +88,11 @@ namespace Beats.Sprites
 		public event Action HeightChanged;
 
 		/// <summary>
+		/// Triggers when the button gets clicked.
+		/// </summary>
+		public event Action Clicked;
+
+		/// <summary>
 		/// Constructs a new button with the given caption.
 		/// </summary>
 		/// <param name="caption">The caption of the button.</param>
@@ -131,22 +137,34 @@ namespace Beats.Sprites
 
 			RollOver += Button_RollOver;
 			RollOut += Button_RollOut;
+			MouseButton += Button_MouseButton;
 		}
 
 		private void Button_RollOut(MouseRollOutEventArgs obj)
 		{
-			if (state != ButtonState.Over)
-				return;
-
 			state = ButtonState.Out;
 		}
-
 		private void Button_RollOver(MouseRollOverEventArgs obj)
 		{
 			if (state != ButtonState.Out)
 				return;
 
 			state = ButtonState.Over;
+		}
+		private void Button_MouseButton(MouseButtonEventArgs obj)
+		{
+			if (obj.IsPressed)
+			{
+				state = ButtonState.Down;
+			}
+			else
+			{
+				if(state == ButtonState.Down)
+				{
+					Clicked.Trigger();
+				}
+				state = ButtonState.Over;
+			}
 		}
 
 		public override bool CheckCollision(double x, double y)
@@ -186,6 +204,15 @@ namespace Beats.Sprites
 					middleOver.Draw();
 					break;
 				case ButtonState.Down:
+					sideDown.X = 0;
+					sideDown.SizeX = 1f;
+					sideDown.Draw();
+
+					sideDown.SizeX = -1f;
+					sideDown.X = Width;
+					sideDown.Draw();
+
+					middleDown.Draw();
 					break;
 			}
 
