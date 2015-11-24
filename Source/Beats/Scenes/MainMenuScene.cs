@@ -22,26 +22,32 @@ namespace Beats.Scenes
 		public MainMenuScene(Window window)
 			: base(window)
 		{
-			Button menuButton = new Button("Song Select");
-			menuButton.OriginX = menuButton.Width / -2f;
-			menuButton.Align(
-				new RelativeAlignment(menuButton, window, true)
+			Button songSelectButton = new Button("Song Select");
+			songSelectButton.OriginX = songSelectButton.Width / -2f;
+			songSelectButton.Align(
+				new RelativeAlignment(songSelectButton, window, true)
 				{
 					OffsetY = 10,
 					PercentX = 0.5f
 				}
 			);
-			addChild(menuButton);
+			addChild(songSelectButton);
 
 			Button exitButton = new Button("Exit");
 			exitButton.OriginX = exitButton.Width / -2f;
 			exitButton.Align(
-				new RelativeAlignment(exitButton, menuButton, false)
+				new RelativeAlignment(exitButton, songSelectButton, false)
 				{
-					OffsetY = menuButton.Height + 10
+					OffsetY = songSelectButton.Height + 10
 				}
 			);
+			exitButton.Clicked += ExitButton_Clicked;
 			addChild(exitButton);
+		}
+
+		private void ExitButton_Clicked()
+		{
+			Window.Exit();
 		}
 
 		public override bool CanTransitionTo(Scene scene)
