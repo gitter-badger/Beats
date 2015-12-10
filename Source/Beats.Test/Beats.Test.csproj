@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="SpriteTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestMapManager.cs" />
     <Compile Include="TestSprite.cs" />
   </ItemGroup>
   <ItemGroup>

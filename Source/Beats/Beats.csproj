@@ -64,6 +64,9 @@
     <Compile Include="Graphics\Text.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="IO\IOHelper.cs" />
+    <Compile Include="Maps\MapManager.cs" />
+    <Compile Include="Maps\Map.cs" />
+    <Compile Include="Maps\MapSetMetadata.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scenes\MainMenuScene.cs" />
