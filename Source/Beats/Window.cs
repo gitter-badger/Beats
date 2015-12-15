@@ -138,8 +138,15 @@ namespace Beats
 
 		protected override void OnMouseMove(MouseMoveEventArgs e)
 		{
-			foreach (Scene scene in activeScenes)
+			for (int i = activeScenes.Count - 1; i > -1; --i)
 			{
+				if (activeScenes.Count == 0)
+					break;
+
+				if (i >= activeScenes.Count)
+					i = activeScenes.Count - 1;
+
+				Scene scene = activeScenes[i];
 				recursiveCollisionCheck(
 					scene,
 					e.X,
@@ -163,22 +170,49 @@ namespace Beats
 		}
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
-			foreach (Scene scene in activeScenes)
+			for (int i = activeScenes.Count - 1; i > -1; --i)
+			{
+				if (activeScenes.Count == 0)
+					break;
+
+				if (i >= activeScenes.Count)
+					i = activeScenes.Count - 1;
+
+				Scene scene = activeScenes[i];
 				recursiveCollisionCheck(scene, e.X, e.Y, x => x.MouseEvents, x => x.SendEvent(e));
+			}
 
 			base.OnMouseDown(e);
 		}
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			foreach (Scene scene in activeScenes)
+			for (int i = activeScenes.Count - 1; i > -1; --i)
+			{
+				if (activeScenes.Count == 0)
+					break;
+
+				if (i >= activeScenes.Count)
+					i = activeScenes.Count - 1;
+
+				Scene scene = activeScenes[i];
 				recursiveCollisionCheck(scene, e.X, e.Y, x => x.MouseEvents, x => x.SendEvent(e));
+			}
 
 			base.OnMouseUp(e);
 		}
 		protected override void OnMouseWheel(MouseWheelEventArgs e)
 		{
-			foreach (Scene scene in activeScenes)
+			for (int i = activeScenes.Count - 1; i > -1; --i)
+			{
+				if (activeScenes.Count == 0)
+					break;
+
+				if (i >= activeScenes.Count)
+					i = activeScenes.Count - 1;
+
+				Scene scene = activeScenes[i];
 				recursiveCollisionCheck(scene, e.X, e.Y, x => x.MouseEvents, x => x.SendEvent(e));
+			}
 
 			base.OnMouseWheel(e);
 		}
