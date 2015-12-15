@@ -57,6 +57,7 @@
     <Compile Include="Align\IPosition.cs" />
     <Compile Include="Align\ISize.cs" />
     <Compile Include="Align\RelativeAlignment.cs" />
+    <Compile Include="Audio\SoundData.cs" />
     <Compile Include="Events\MouseRollOutEventArgs.cs" />
     <Compile Include="Events\MouseRollOverEventArgs.cs" />
     <Compile Include="ExtensionMethods.cs" />
@@ -104,6 +105,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Assets\Skins\default\button-side-mouse-over.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Maps\TestMap\Blip Stream.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
