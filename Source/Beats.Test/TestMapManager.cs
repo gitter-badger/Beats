@@ -8,16 +8,18 @@ using System.Threading.Tasks;
 
 namespace Beats.Test
 {
-    [TestClass]
-    public class TestMapManager
-    {
-        [TestMethod]
-        public void TestListMaps()
-        {
-            List<MapSetMetadata> sets = MapManager.GetMapSets();
-            Assert.IsTrue(sets.Count == 1);
-            List<Map> maps = sets[0].GetMaps();
-            Assert.IsTrue(maps.Count == 1);
-        }
-    }
+	[TestClass]
+	public class TestMapManager
+	{
+		[TestMethod]
+		public void TestListMaps()
+		{
+			List<MapSetMetadata> sets = MapManager.GetMapSets();
+			Assert.IsTrue(sets.Count == 1);
+			List<Map> maps = sets[0].GetMaps();
+			Assert.IsTrue(maps.Count == 1);
+			Assert.IsTrue(maps[0].Sounds[0].Offset == 50);
+			Assert.IsTrue(maps[0].Sounds[0].SoundFile == "Blip Stream.mp3");
+		}
+	}
 }
