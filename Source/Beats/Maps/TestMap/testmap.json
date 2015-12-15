@@ -1,0 +1,9 @@
+﻿{
+    "name": "Test-Map",
+    "sounds": [
+        {
+            "offset": 50,
+            "soundFile": "Blip Stream.mp3"
+        }
+    ]
+}

@@ -31,6 +31,7 @@ namespace Beats.Scenes
 					PercentX = 0.5f
 				}
 			);
+			songSelectButton.Clicked += SongSelectButton_Clicked;
 			addChild(songSelectButton);
 
 			Button exitButton = new Button("Exit");
@@ -45,6 +46,11 @@ namespace Beats.Scenes
 			addChild(exitButton);
 		}
 
+		private void SongSelectButton_Clicked()
+		{
+			Window.Transition(this, new SongSelectScene(Window));
+		}
+
 		private void ExitButton_Clicked()
 		{
 			Window.Exit();
@@ -52,7 +58,10 @@ namespace Beats.Scenes
 
 		public override bool CanTransitionTo(Scene scene)
 		{
-			throw new NotImplementedException();
+			if (scene is SongSelectScene)
+				return true;
+			else
+				return false;
 		}
 
 		public override void Reset()
