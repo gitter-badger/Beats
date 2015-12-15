@@ -24,5 +24,10 @@ namespace Beats.Align
 		{
 			Target = target;
 		}
+
+		/// <summary>
+		/// Updates the targets positioning according to the alignment.
+		/// </summary>
+		public abstract void Update();
 	}
 }

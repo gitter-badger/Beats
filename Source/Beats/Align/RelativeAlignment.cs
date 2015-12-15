@@ -58,6 +58,12 @@ namespace Beats.Align
 			updateY();
 		}
 
+		public override void Update()
+		{
+			updateX();
+			updateY();
+		}
+
 		private void updateX()
 		{
 			if(!alignmentBoxContainsAligned)
