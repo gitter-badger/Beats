@@ -163,6 +163,7 @@ namespace Beats.Sprites
 				throw new InvalidOperationException("The given alignment is not targetting this sprite.");
 
 			alignments.Add(alignment);
+			alignment.Update();
 		}
 
 		protected void addChild(Sprite sprite)
