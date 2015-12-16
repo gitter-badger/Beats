@@ -1,7 +1,9 @@
 ﻿using Beats.Audio;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Serialization;
 
 namespace Beats.Maps
 {
@@ -41,6 +43,15 @@ namespace Beats.Maps
 			MapSet = mapSet;
 			sounds = new List<SoundData>();
 			Sounds = new ReadOnlyCollection<SoundData>(sounds);
+		}
+
+		[OnDeserialized]
+		private void onDeserialized(StreamingContext context)
+		{
+			foreach(SoundData soundData in Sounds)
+			{
+				soundData.Path = MapSet.Path;
+			}
 		}
 	}
 }
