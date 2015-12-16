@@ -35,7 +35,7 @@ namespace Beats.Maps
 			List<Map> maps = new List<Map>();
 			foreach (string map in this.maps)
 			{
-				Map metaData = new Map();
+				Map metaData = new Map(this);
 				if (!IOHelper.TryReadInto(Path + "/" + map, metaData))
 					continue;
 

@@ -26,10 +26,19 @@ namespace Beats.Maps
 		public ReadOnlyCollection<SoundData> Sounds { get; private set; }
 
 		/// <summary>
+		/// The mapset this map belongs to.
+		/// </summary>
+		public MapSetMetadata MapSet { get; private set; }
+
+		/// <summary>
 		/// Constructs a new, empty map.
 		/// </summary>
-		public Map()
+		public Map(MapSetMetadata mapSet)
 		{
+			if (mapSet == null)
+				throw new ArgumentNullException(nameof(mapSet));
+
+			MapSet = mapSet;
 			sounds = new List<SoundData>();
 			Sounds = new ReadOnlyCollection<SoundData>(sounds);
 		}
