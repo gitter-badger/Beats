@@ -35,6 +35,10 @@ namespace Beats.Scenes
 							OffsetY = 20
 						}
 					);
+					mapBtn.Clicked += delegate
+					{
+						map.Sounds[0].Play();
+					};
 					addChild(mapBtn);
 				}
 			}
