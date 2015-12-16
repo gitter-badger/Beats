@@ -11,7 +11,7 @@ namespace Beats.Maps
 	/// Represents a map. A map is the main element of gameplay and contains
 	/// hitobjects, sounds and other data required for a play session.
 	/// </summary>
-	public class Map
+	public class Map : IDisposable
 	{
 		/// <summary>
 		/// The name of the map.
@@ -31,6 +31,8 @@ namespace Beats.Maps
 		/// The mapset this map belongs to.
 		/// </summary>
 		public MapSetMetadata MapSet { get; private set; }
+
+		private bool isDisposed;
 
 		/// <summary>
 		/// Constructs a new, empty map.
@@ -52,6 +54,26 @@ namespace Beats.Maps
 			{
 				soundData.Path = MapSet.Path;
 			}
+		}
+
+		/// <summary>
+		/// Disposes unmanaged resources used by objects of the map.
+		/// </summary>
+		public void Dispose()
+		{
+			if (isDisposed)
+				throw new ObjectDisposedException(ToString());
+			isDisposed = true;
+			foreach(SoundData soundData in Sounds)
+			{
+				soundData.Dispose();
+			}
+			sounds.Clear();
+		}
+
+		public override string ToString()
+		{
+			return $"Map {Name}";
 		}
 	}
 }
