@@ -10,6 +10,7 @@ using OpenTK.Input;
 using System.Threading;
 using Beats.Events;
 using Beats.Align;
+using Un4seen.Bass;
 
 namespace Beats
 {
@@ -76,6 +77,9 @@ namespace Beats
 
 			TargetRenderFrequency = 60;
 			TargetUpdateFrequency = 60;
+
+			BassNet.Registration("schneider.cedric@gmx.de", "2X282223152223");
+			Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, WindowInfo.Handle);
 		}
 
 		private void fixViewPort()
@@ -272,7 +276,7 @@ namespace Beats
 					recursiveCollisionCheck(child, newX, newY, predicate, whenCollides, whenNotCollides);
 				}
 			}
-			else if(whenNotCollides != null)
+			else if (whenNotCollides != null)
 			{
 				whenNotCollides(sprite);
 				foreach (Sprite child in sprite.AllChildren)
