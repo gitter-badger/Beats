@@ -66,6 +66,7 @@
     <Compile Include="Graphics\Text.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="IO\IOHelper.cs" />
+    <Compile Include="Libraries\LibraryLoader.cs" />
     <Compile Include="Maps\MapManager.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\MapSetMetadata.cs" />
